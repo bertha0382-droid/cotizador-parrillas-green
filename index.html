@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<!-- saved from url=(0068)file:///C:/Users/USER/Downloads/cotizador-parrillas-green%20(2).html -->
+<html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cotizador Parrillas Green</title>
+<style>
+:root{--olive:#5b6b2f;--olive-d:#444f22;--olive-l:#eef0e2;--brick:#a4472b;--black:#1a1a1a;--bg:#f7f6f0;--mu:#6a6a60;--bd:#d9d8cc}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--black);font-family:"Nunito","Varela Round","Quicksand",ui-rounded,"SF Pro Rounded","Segoe UI",system-ui,sans-serif;font-size:16px}
+header{background:var(--black);color:#fff;text-align:center;padding:14px 12px;border-bottom:4px solid var(--brick)}
+header h1{margin:0;font-size:20px}
+header h1 span{color:#b9c77a}
+header p{margin:2px 0 0;font-size:13px;color:#bdbdb0}
+main{max-width:480px;margin:0 auto;padding:14px 14px 24px}
+h2{font-size:14px;margin:16px 0 6px;color:var(--olive-d)}
+select,input[type=number]{width:100%;font:inherit;font-size:16px;padding:12px;border:2px solid var(--bd);border-radius:14px;background:#fff;color:var(--black)}
+select:focus,input:focus{outline:none;border-color:var(--olive)}
+.line{background:#fff;border:2px solid var(--bd);border-radius:16px;padding:10px;margin-bottom:10px}
+.line select{border-width:0;padding:8px 4px;font-weight:700;background:transparent}
+.desc{font-size:13px;color:var(--mu);margin:0 4px 8px;min-height:16px}
+.qrow{display:flex;gap:8px;align-items:center}
+.qrow button{flex:0 0 46px;height:46px;border:2px solid var(--bd);background:#fff;border-radius:14px;font-size:24px;color:var(--olive-d)}
+.qrow input{text-align:center;font-weight:700;width:80px;flex:0 0 80px}
+.qrow .rm{margin-left:auto;flex:0 0 auto;width:auto;padding:0 12px;font-size:14px;color:var(--brick);border-color:transparent;font-weight:700}
+.add{width:100%;padding:12px;border:2px dashed var(--olive);background:transparent;color:var(--olive-d);border-radius:14px;font:inherit;font-weight:800;font-size:15px}
+.ch{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ch label{position:relative;font-weight:600}
+.ch input{position:absolute;opacity:0}
+.ch span{display:block;padding:12px 10px;border:2px solid var(--bd);border-radius:14px;background:#fff;text-align:center;font-size:14px;line-height:1.25}
+.ch small{display:block;color:var(--mu);font-weight:400;margin-top:2px}
+.ch input:checked+span{border-color:var(--olive);background:var(--olive-l)}
+.main-btn{width:100%;margin-top:18px;padding:15px;border:0;border-radius:14px;background:var(--brick);color:#fff;font:inherit;font-weight:800;font-size:18px}
+.main-btn:active{filter:brightness(.9)}
+.err{color:var(--brick);font-size:13px;margin-top:8px;min-height:16px;font-weight:700}
+#res{display:none;margin-top:12px;background:#fff;border:2px solid var(--olive);border-radius:16px;overflow:hidden}
+#res .top{background:var(--olive);color:#fff;padding:10px 14px;display:flex;justify-content:space-between;align-items:baseline}
+#res .top b{font-size:26px}
+#res .body{padding:12px 14px;font-size:15px;line-height:1.5}
+.row{display:flex;justify-content:space-between;gap:10px}
+.det{font-size:13px;color:var(--mu);margin:0 0 8px}
+.sep{border-top:1px solid var(--bd);margin:8px 0}
+#copy{width:calc(100% - 28px);margin:0 14px 14px;padding:13px;border:0;border-radius:12px;background:var(--black);color:#fff;font:inherit;font-weight:700;font-size:16px}
+#msg{text-align:center;color:var(--olive-d);font-weight:700;font-size:13px;height:16px;margin:-6px 0 8px}
+</style>
+</head>
+<body>
+<header><h1>Cotizador <span>Parrillas Green</span></h1><p>Total del pedido en segundos</p></header>
+<main>
+<h2>Productos del pedido</h2>
+<div id="lines"><div class="line"><select class="sel"><option value="0">Parrilla personal — S/ 70.00</option><option value="1">Parrilla para dos — S/ 90.00</option><option value="2">Parrilla familiar — S/ 120.00</option><option value="3">Combo 1 — S/ 22.00</option><option value="4">Combo 2 — S/ 25.00</option><option value="5">Combo 3 — S/ 27.00</option><option value="6">Porción de mollejas — S/ 15.00</option><option value="7">Porción de anticucho — S/ 15.00</option></select><div class="desc">Carne de res + un anticucho + mollejas + papas + ensalada</div><div class="qrow"><button type="button" class="mn" aria-label="Menos">−</button><input type="number" class="qt" value="1" min="1" step="1" inputmode="numeric"><button type="button" class="pl" aria-label="Más">+</button><button type="button" class="rm" style="display: none;">Quitar</button></div></div></div>
+<button type="button" class="add" id="add">+ Agregar otro producto</button>
+
+<h2>Canal de entrega</h2>
+<div class="ch">
+<label><input type="radio" name="canal" value="recojo" checked=""><span>Recojo en punto de venta<small>Sin costo adicional</small></span></label>
+<label><input type="radio" name="canal" value="delivery"><span>Delivery en Lima<small>+ S/ 5.00</small></span></label>
+</div>
+
+<div class="err" id="err"></div>
+<button class="main-btn" id="calc" type="button">Calcular</button>
+
+<div id="res">
+<div class="top"><span>TOTAL</span><b id="total"></b></div>
+<div class="body" id="sum"></div>
+<button id="copy" type="button">Copiar resumen</button>
+<div id="msg"></div>
+</div>
+</main>
+
+<script>
+var PRODUCTOS=[
+{n:"Parrilla personal",p:70,d:"Carne de res + un anticucho + mollejas + papas + ensalada"},
+{n:"Parrilla para dos",p:90,d:"Carne de res + carne de chancho + mollejas + papas + ensalada"},
+{n:"Parrilla familiar",p:120,d:"Carne de res, de chancho y pollo + anticucho + mollejas + papas + ensalada"},
+{n:"Combo 1",p:22,d:"Pollo + anticucho + papas + ensalada"},
+{n:"Combo 2",p:25,d:"Pollo + mollejas + chorizo + papas + ensalada"},
+{n:"Combo 3",p:27,d:"Pollo + mollejas + anticucho + papas + ensalada"},
+{n:"Porción de mollejas",p:15,d:""},
+{n:"Porción de anticucho",p:15,d:""}
+];
+var DELIVERY=5;
+var $=function(id){return document.getElementById(id)};
+function money(n){return "S/ "+n.toFixed(2)}
+var textoCopia="";
+
+function ocultar(){$("res").style.display="none";$("err").textContent=""}
+
+function refrescarQuitar(){
+  var ls=document.querySelectorAll(".line");
+  ls.forEach(function(l){l.querySelector(".rm").style.display=ls.length>1?"block":"none"});
+}
+
+function nuevaLinea(){
+  var d=document.createElement("div");d.className="line";
+  var opts=PRODUCTOS.map(function(x,i){return '<option value="'+i+'">'+x.n+' — '+money(x.p)+'</option>'}).join("");
+  d.innerHTML='<select class="sel">'+opts+'</select><div class="desc"></div>'+
+    '<div class="qrow"><button type="button" class="mn" aria-label="Menos">−</button>'+
+    '<input type="number" class="qt" value="1" min="1" step="1" inputmode="numeric">'+
+    '<button type="button" class="pl" aria-label="Más">+</button>'+
+    '<button type="button" class="rm">Quitar</button></div>';
+  var sel=d.querySelector(".sel"),qt=d.querySelector(".qt"),ds=d.querySelector(".desc");
+  function desc(){ds.textContent=PRODUCTOS[sel.value].d}
+  sel.addEventListener("change",function(){desc();ocultar()});
+  qt.addEventListener("input",ocultar);
+  d.querySelector(".mn").onclick=function(){var q=parseInt(qt.value,10)||1;qt.value=Math.max(1,q-1);ocultar()};
+  d.querySelector(".pl").onclick=function(){var q=parseInt(qt.value,10)||0;qt.value=q+1;ocultar()};
+  d.querySelector(".rm").onclick=function(){d.remove();refrescarQuitar();ocultar()};
+  desc();
+  $("lines").appendChild(d);
+  refrescarQuitar();
+}
+
+$("add").onclick=function(){nuevaLinea();ocultar()};
+document.querySelectorAll("input[name=canal]").forEach(function(r){r.addEventListener("change",ocultar)});
+
+$("calc").onclick=function(){
+  var items=[],ok=true,sub=0;
+  document.querySelectorAll(".line").forEach(function(l){
+    var q=parseInt(l.querySelector(".qt").value,10);
+    if(isNaN(q)||q<1){ok=false;return}
+    items.push({x:PRODUCTOS[l.querySelector(".sel").value],q:q});
+  });
+  if(!ok){$("err").textContent="Cada cantidad debe ser un número entero de 1 o más.";$("res").style.display="none";return}
+  $("err").textContent="";
+  var deliv=document.querySelector("input[name=canal]:checked").value==="delivery";
+  var canal=deliv?"Delivery en Lima":"Recojo en punto de venta";
+  var html="",txt="*Pedido Parrillas Green*\n";
+  items.forEach(function(it){
+    var s=it.q*it.x.p;sub+=s;
+    html+='<div class="row"><span>'+it.q+' × '+it.x.n+'</span><b>'+money(s)+'</b></div>';
+    if(it.x.d)html+='<div class="det">'+it.x.d+'</div>';
+    txt+=it.q+" × "+it.x.n+" — "+money(s)+"\n"+(it.x.d?"("+it.x.d+")\n":"");
+  });
+  var total=sub+(deliv?DELIVERY:0);
+  html+='<div class="sep"></div><div class="row"><span>'+canal+'</span><b>'+(deliv?money(DELIVERY):"Sin costo")+'</b></div>';
+  txt+=canal+(deliv?" — "+money(DELIVERY):" — sin costo")+"\n*TOTAL: "+money(total)+"*";
+  textoCopia=txt;
+  $("sum").innerHTML=html;
+  $("total").textContent=money(total);
+  $("msg").textContent="";
+  $("res").style.display="block";
+  $("res").scrollIntoView({behavior:"smooth",block:"nearest"});
+};
+
+function aviso(t){$("msg").textContent=t;setTimeout(function(){$("msg").textContent=""},2200)}
+$("copy").onclick=function(){
+  function respaldo(){
+    var a=document.createElement("textarea");a.value=textoCopia;a.style.position="fixed";a.style.opacity="0";
+    document.body.appendChild(a);a.select();
+    try{document.execCommand("copy");aviso("¡Resumen copiado!")}catch(e){aviso("No se pudo copiar")}
+    document.body.removeChild(a);
+  }
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(textoCopia).then(function(){aviso("¡Resumen copiado!")},respaldo);
+  }else respaldo();
+};
+
+nuevaLinea();
+</script>
+
+
+</body></html>
